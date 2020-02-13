@@ -17,14 +17,15 @@ public class Game {
 		return result;
 		}
 	
-	public static int playerVsPlayer(String playerOne, String PlayerTwo) throws IOException {
-		
+	public static int playerVsPlayer(String pOne, String pTwo) throws IOException {
+		String playerTwo = pTwo.toLowerCase().strip();
+		String playerOne = pOne.toLowerCase().strip();
 		int result;
 		
-		result = playerOne.equals(PlayerTwo) ? ScoreBean.ties++ : 
-			 playerOne.equals("rock") && PlayerTwo.equals("scissor") ? ScoreBean.wins++ :
-			 playerOne.equals("paper") && PlayerTwo.equals("rock") ? ScoreBean.wins++ : 
-			 playerOne.equals("scissor") && PlayerTwo.equals("paper") ? ScoreBean.wins++ : ScoreBean.loss++;
+		result = playerOne.equals(playerTwo) ? ScoreBean.ties++ : 
+			 playerOne.equals("rock") && playerTwo.equals("scissor") ? ScoreBean.wins++ :
+			 playerOne.equals("paper") && playerTwo.equals("rock") ? ScoreBean.wins++ : 
+			 playerOne.equals("scissor") && playerTwo.equals("paper") ? ScoreBean.wins++ : ScoreBean.loss++;
 		return result;
 		
 	}
