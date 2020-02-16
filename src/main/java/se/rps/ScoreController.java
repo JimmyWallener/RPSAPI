@@ -76,9 +76,9 @@ public class ScoreController {
 		
 }	@RequestMapping(value = "/score", method=RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateScore(int wins, int losses, int ties) {
-		this.wins = wins;
-		this.losses = losses;
-		this.ties = ties;
+		ScoreBean.wins = wins;
+		ScoreBean.loss = losses;
+		ScoreBean.ties = ties;
 		String pattern = "{ \"wins\":\"%s\", \"losses\":\"%s\", \"ties\": \"%s\"}"; 
 		String json = String.format(pattern, ScoreBean.wins,ScoreBean.loss,ScoreBean.ties );
 		return json;
