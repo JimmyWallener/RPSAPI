@@ -2,11 +2,16 @@ package se.rps;
 
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 public class ScoreController {
@@ -14,6 +19,8 @@ public class ScoreController {
 	private int wins;
 	private int losses;
 	private int ties;
+	private int counter;
+
 	
 
 // Score section
@@ -29,7 +36,6 @@ public class ScoreController {
 	 * @RequestMapping(value = "/score/ties", method = RequestMethod.GET) public int
 	 * getTie() { return ties; }
 	 */
-	 
 	
 
 	@RequestMapping(value = "/score/wins", method = RequestMethod.POST)
@@ -49,13 +55,27 @@ public class ScoreController {
 		ScoreBean.ties++;
 		return ties;
 	
-}
+	}
+	@RequestMapping(value = "/score/counter", method = RequestMethod.POST)
+	public int gameCounter() {
+		ScoreBean.counter++;
+		return counter;
+	
+	}
+	@RequestMapping(value = "/counter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String updateGameCounter() {
+		String pattern = "{ \"Game Round\": \"%s\"}"; 
+		String json = String.format(pattern,ScoreBean.counter );
+		return json;
+	}
 	@RequestMapping(value = "/ties", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateTie() {
 		String pattern = "{ \"ties\": \"%s\"}"; 
 		String json = String.format(pattern,ScoreBean.ties );
 		return json;
 	}
+	
+	
 	@RequestMapping(value = "/wins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateWins() {
 		String pattern = "{ \"wins\": \"%s\"}"; 
@@ -74,30 +94,53 @@ public class ScoreController {
 		String json = String.format(pattern, ScoreBean.wins,ScoreBean.loss,ScoreBean.ties );
 		return json;
 		
-}	@RequestMapping(value = "/score", method=RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	}	
+	@RequestMapping(value = "/score", method=RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateScore(int wins, int losses, int ties) {
-		this.wins = wins;
-		this.losses = losses;
-		this.ties = ties;
+		ScoreBean.wins = wins;
+		ScoreBean.loss = losses;
+		ScoreBean.ties = ties;
+		String pattern = "{ \"wins\":\"%s\", \"losses\":\"%s\", \"ties\": \"%s\"}"; 
+		String json = String.format(pattern, ScoreBean.wins,ScoreBean.loss,ScoreBean.ties );
+		return json;
+	}
+	@RequestMapping(value = "/reset", method=RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String resetGame() {
+		this.wins = 0;
+		this.losses = 0;
+		this.ties = 0;
 		String pattern = "{ \"wins\":\"%s\", \"losses\":\"%s\", \"ties\": \"%s\"}"; 
 		String json = String.format(pattern, ScoreBean.wins,ScoreBean.loss,ScoreBean.ties );
 		return json;
 	}
 
+	@RequestMapping(value = "/time", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getTime() {
+		String pattern = "{ \"Time\":\"%s\"}";
+		LocalTime localTime = LocalTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;
+		String time = String.format(pattern, localTime.truncatedTo(ChronoUnit.SECONDS).format(formatter));
+		System.out.println(time);
+		return time;
+	}
+
+
 
 // Game mechanics section
 
 @RequestMapping(path = "/cpuGame", method = RequestMethod.POST)
-public static void playerVsComputer(String player) throws IOException {
+public static String playerVsComputer(String player) throws IOException {
 	
-	Game.playerVsComputer(player);
+	return Game.playerVsComputer(player);
 	
 }
 @RequestMapping(path = "/pvpGame", method = RequestMethod.POST)
-public static void playerVsPlayer(String playerOne, String playerTwo) throws IOException {
+public static String playerVsPlayer(String playerOne, String playerTwo) throws IOException {
 	
-	Game.playerVsPlayer(playerOne, playerTwo);
+	return Game.playerVsPlayer(playerOne, playerTwo);
 	
 }
+
+	
 
 }

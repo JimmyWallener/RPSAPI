@@ -4,30 +4,61 @@ import java.io.IOException;
 
 public class Game {
 	
-	public static int playerVsComputer(String player) throws IOException {
+	public static String playerVsComputer(String player) throws IOException {
+		
+		// Changed logic from conditional operations(ternary) to if/else for String return instead of int.
+		// as part of the documentation assignment.
 		
 		String playerOne = player.toLowerCase().strip();
 		String computer = Computer.computer();
-		int result;
+		String result = "";
 		
-		result = playerOne.equals(computer) ? ScoreBean.ties++ : 
-				 playerOne.equals("rock") && computer.equals("scissor") ? ScoreBean.wins++ :
-				 playerOne.equals("paper") && computer.equals("rock") ? ScoreBean.wins++ : 
-				 playerOne.equals("scissor") && computer.equals("paper") ? ScoreBean.wins++ : ScoreBean.loss++;
-		return result;
+		if (playerOne.equals(computer)) {
+			ScoreBean.ties++;
+			result = "It's a tie";
+		} else if (playerOne.equals("rock") && computer.equals("scissor")) {
+			ScoreBean.wins++;
+			result = "Player wins";
+		} else if (playerOne.equals("paper") && computer.equals("rock")) {
+			ScoreBean.wins++;
+			result = "Player wins";
+		} else if (playerOne.equals("scissor") && computer.equals("paper")) {
+			ScoreBean.wins++;
+			result = "Player wins";
+		} else {
+			ScoreBean.loss++;
+			result = "Player lost";
+		} return result;
+		
 		}
 	
-	public static int playerVsPlayer(String pOne, String pTwo) throws IOException {
+	public static String playerVsPlayer(String pOne, String pTwo) throws IOException {
+		
+		// Changed logic from conditional operations(ternary) to if/else for String return instead of int.
+		// as part of the documentation assignment.
+		
 		String playerTwo = pTwo.toLowerCase().strip();
 		String playerOne = pOne.toLowerCase().strip();
-		int result;
+		String result = "";
 		
-		result = playerOne.equals(playerTwo) ? ScoreBean.ties++ : 
-			 playerOne.equals("rock") && playerTwo.equals("scissor") ? ScoreBean.wins++ :
-			 playerOne.equals("paper") && playerTwo.equals("rock") ? ScoreBean.wins++ : 
-			 playerOne.equals("scissor") && playerTwo.equals("paper") ? ScoreBean.wins++ : ScoreBean.loss++;
-		return result;
-		
+		if (playerOne.equals(playerTwo)) {
+			ScoreBean.ties++;
+			result = "It's a tie";
+		} else if (playerOne.equals("rock") && playerTwo.equals("scissor")) {
+			ScoreBean.wins++;
+			result = "Player One wins";
+		} else if (playerOne.equals("paper") && playerTwo.equals("rock")) {
+			ScoreBean.wins++;
+			result = "Player One wins";
+		} else if (playerOne.equals("scissor") && playerTwo.equals("paper")) {
+			ScoreBean.wins++;
+			result = "Player One wins";
+		} else {
+			ScoreBean.loss++;
+			result = "Player Two wins";
+		} return result;
+
+			
 	}
 
 }
